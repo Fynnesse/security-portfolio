@@ -10,7 +10,7 @@ Contact: [asagbajerryjobs@gmail.com] · [www.linkedin.com/in/jeremiahasagba/]
 ## Investigations
 | # | Title | Focus | Write-up |
 |---|-------|-------|----------|
-| 1 | Operation Dead Deploy | Governance forensics, deployment audit trail | week 1 |
+| 1 | Operation Dead Deploy | Governance forensics, deployment audit trail | [Read write-up](01-operation-dead-deploy.md) |
 | 2 | The Stolen Identity | App registration attack kill chain (Entra ID) | coming, week 2 |
 | 3 | Privilege Audit | RBAC and least privilege | coming, week 3 |
 | 4 | Spin Up and Lock Down | Compute attack surface | coming, week 4 |
