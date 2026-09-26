@@ -1,5 +1,8 @@
 # Tracing a Non-Compliant Azure Deployment to an Audit-Only Policy
 
+> [!NOTE]
+> Identifiers and lab answers are redacted throughout, both in the text and in screenshots. This preserves the integrity of the lab for others and follows standard practice for handling environment data.
+> 
 ## Scenario
 
 An intern was given temporary Contributor access to build a test environment for an experiment. They deployed over a weekend without following the organisation's governance standards, then left. I picked it up Monday morning as the on-call engineer with Reader access.
@@ -27,7 +30,8 @@ I started at the subscription's resource group list and compared every name agai
 <img width="1917" height="862" alt="1" src="https://github.com/user-attachments/assets/8f60734a-f3a0-43bb-b41d-a200b35e3388" />
 
 <img width="1915" height="870" alt="2  Wrong Naming Convention" src="https://github.com/user-attachments/assets/6bb17341-624b-438c-9fee-d2d2295c93dc" />
-[Resource group list showing the naming outlier]
+
+*Resource group list showing the naming outlier*
 
 ### 2. Inspect what's inside and who owns it
 
@@ -35,11 +39,11 @@ The outlier held a single resource, a storage account. I opened it and went to i
 
 <img width="1912" height="867" alt="3  Intern RG resources" src="https://github.com/user-attachments/assets/dfedf77b-4b79-4433-bcab-3445ffee7fdb" />
 
-[Resource group contents]
+*Resource group contents*
 
 <img width="1917" height="862" alt="5  Interns Resource Tags" src="https://github.com/user-attachments/assets/f674e9ae-46f1-44fc-995e-d32ef295338f" />
 
-[Storage account tags]
+*Storage account tags*
 
 ### 3. Trace the deployment
 
@@ -50,7 +54,7 @@ Every IaC deployment leaves a record in the resource group's Deployments blade. 
 
 <img width="1917" height="862" alt="7  RG Deployment overview" src="https://github.com/user-attachments/assets/b49d4b9c-807d-4ef1-b2ac-2141dbd385c9" />
 
-[Deployments blade, deployment name]
+*Deployments blade, deployment name*
 
 ### 4. Find out why governance didn't stop it
 
@@ -63,7 +67,7 @@ Audit logs a violation but lets the request through. So the policy was assigned,
 
 <img width="1916" height="867" alt="9  RG Naming Convention Policy" src="https://github.com/user-attachments/assets/765d883e-9e22-476b-88bd-203f441a989a" />
 
-[Naming convention policy assignment, effect set to Audit]
+*Naming convention policy assignment, effect set to Audit*
 
 ## What broke / what surprised me
 
