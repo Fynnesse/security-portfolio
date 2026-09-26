@@ -1,3 +1,5 @@
+<img width="1290" height="355" alt="ODD" src="https://github.com/user-attachments/assets/f9e0c7fd-b01a-43e9-a65b-a2d9415ba9d2" />
+
 # Tracing a Non-Compliant Azure Deployment to an Audit-Only Policy
 
 > [!NOTE]
