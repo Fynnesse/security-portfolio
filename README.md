@@ -1,17 +1,19 @@
-# Security Portfolio: [ASAGBA JEREMIAH]
+# Security Portfolio: ASAGBA JEREMIAH
 
 Documented cloud security investigations, built in a live Azure tenant
 (Mad Hat Labs, a multi-user training environment).
 
 Target role: SOC Analyst / Security Analyst
-Currently: [Operation Executive] | [Manchester]
-Contact: [asagbajerryjobs@gmail.com] · [www.linkedin.com/in/jeremiahasagba/]
+
+Currently: Operation Executive | Manchester
+
+Contact: asagbajerryjobs@gmail.com · www.linkedin.com/in/jeremiahasagba/
 
 ## Investigations
 | # | Title | Focus | Write-up |
 |---|-------|-------|----------|
 | 1 | Operation Dead Deploy | Governance forensics, deployment audit trail | [Read write-up](01-operation-dead-deploy.md) |
-| 2 | The Stolen Identity | App registration attack kill chain (Entra ID) | coming, week 2 |
+| 2 | The Stolen Identity | App registration attack kill chain (Entra ID) | [Read write-up](02-The-Stolen-Identity.md) |
 | 3 | Privilege Audit | RBAC and least privilege | coming, week 3 |
 | 4 | Spin Up and Lock Down | Compute attack surface | coming, week 4 |
 | 5 | Network the Operative | Network segmentation | coming, week 5 |
