@@ -29,7 +29,7 @@ The question: reconstruct what the attacker did, stage by stage, using read-only
 
 Before touching the flagged app I checked the Owned applications tab. The account owns nothing in the directory, which set the boundary for everything after: I could read app configuration but could not modify it.
 
-*[screenshot: owned applications, empty]*
+<img width="1902" height="815" alt="2 7 2 Owned Apps" src="https://github.com/user-attachments/assets/e4070a16-da89-457a-8ea6-9640940a28ca" />
 
 ### 2. Entry
 
@@ -39,14 +39,16 @@ The incident team had recorded the entry method as free-text metadata in the Int
 
 What made that user valuable was not their own access. Through years of drift they had been left as an Owner on the legacy connector app, which is what every later stage depends on.
 
-*[screenshot: all applications list]*
-*[screenshot: branding and properties, notes value redacted]*
+<img width="1910" height="857" alt="2 7 3 All Apps" src="https://github.com/user-attachments/assets/21b75bbe-c6f0-4569-b368-39c2c2703eb2" />
+
+<img width="1902" height="857" alt="2 7 5 Legacy app note flags" src="https://github.com/user-attachments/assets/717bfc46-d8ed-458d-a6b8-23072799ab55" />
 
 ### 3. Escalate
 
 The API permissions blade is the answer to what the app can actually do. Application-type Graph permissions had been granted with admin consent, meaning they were live and tenant-wide. These were not granted by the attacker. They were granted when the connector was originally stood up, which means the escalation pre-dated the intrusion. The attacker only needed to become the app.
 
-*[screenshot: API permissions, type and consent status visible]*
+
+<img width="1917" height="817" alt="2 7 9 API_Permissions" src="https://github.com/user-attachments/assets/4015cc5f-d879-43f7-b043-0532c845fffc" />
 
 ### 4. Pivot
 
@@ -54,8 +56,10 @@ The Certificates and secrets blade held a single client secret with an expiry se
 
 A credential alone is fragile, because rotation kills it. So the Owners blade is where the real persistence sits: a second app registration's service principal had been added as an owner of the legacy app. Ownership means the ability to mint fresh credentials indefinitely, so rotating the secret does not remove the attacker's access.
 
-*[screenshot: certificates and secrets, expiry column]*
-*[screenshot: owners list showing the rogue app]*
+<img width="1916" height="865" alt="2 7 6 Legacy app Certs_and_secrets" src="https://github.com/user-attachments/assets/5cb8efc1-689e-426c-9083-bdad7f66d6cd" />
+
+<img width="1917" height="825" alt="2 7 Owners list" src="https://github.com/user-attachments/assets/26a31896-9b7f-4d13-9b53-3b3d7a35bca2" />
+
 
 ### 5. Persist
 
@@ -63,13 +67,13 @@ The Expose an API blade turns the legacy app from a client into a resource, mean
 
 At this point the attacker holds no new access. A scope is a door, not a key. It only becomes access when a victim consents.
 
-*[screenshot: expose an API, user consent display name cropped]*
+<img width="1917" height="872" alt="2 7 9 legacyapp_xposeAPI" src="https://github.com/user-attachments/assets/84299d20-0e6d-41f5-a9f8-d929a981542e" />
 
 ### 6. Loot
 
 The rogue app's Authentication blade carried a redirect URI pointing at infrastructure outside the tenant, alongside a normal-looking development URI. The rogue app's client ID, the exposed scope, and that redirect URI together produce a working consent phishing URL. A victim already signed in on a corporate device clicks Accept, and the authorisation code is delivered to the attacker.
 
-*[screenshot: authentication blade, attacker URI redacted]*
+<img width="1917" height="882" alt="2 7 10 5TH FLAG" src="https://github.com/user-attachments/assets/5298dbd3-e560-48a9-9c63-3d4723c29ca0" />
 
 ### Why this path exists at all
 
@@ -87,7 +91,7 @@ This path exists for a few reasons. Credential phishing is expensive and repeata
 
 ## Naming the pattern: confused deputy
 
-[REWRITE IN YOUR OWN WORDS] A confused deputy attack is one where a less privileged actor tricks a more privileged system into performing an action on their behalf that they could not perform directly. The privileged system is not compromised. It does exactly what it was built to do, for a request it should never have honoured.
+A confused deputy attack is one where a less privileged actor tricks a more privileged system into performing an action on their behalf that they could not perform directly. The privileged system is not compromised. It does exactly what it was built to do, for a request it should never have honoured.
 
 Here the legacy connector is the deputy. It holds tenant-wide Graph permissions and it is trusted to use them. The attacker never acquired those permissions themselves. They acquired the ability to make the connector act, first through a stolen session belonging to an owner, then through a credential minted on the app. Every Graph call that followed was the connector doing its job.
 
