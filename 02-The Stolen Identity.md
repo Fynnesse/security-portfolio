@@ -3,15 +3,14 @@
 > [!NOTE]
 > Identifiers and lab answers are redacted throughout, both in the text and in screenshots. This preserves the integrity of the lab for others and follows standard practice for handling environment data.
 
-**Date:** 2026-09-29
-**Environment type:** Live multi-user Azure training tenant
-**Time spent:** ~[X]h
 
 ---
 
 ## Scenario
 
-Someone accessed the Mad Hat Labs tenant within the last 24 hours. No exploit was used and no alert fired. The logs show a series of ordinary, successful sign-ins. A legacy internal connector app registration had been flagged by the team as carrying configuration that was not there before. The question: reconstruct what the attacker did, stage by stage, using read-only access to directory applications, and identify what they would still hold after a standard containment.
+Someone accessed the Mad Hat Labs tenant within the last 24 hours. No exploit was used and no alert fired. The logs show a series of ordinary, successful sign-ins. A legacy internal connector app registration had been flagged by the team as carrying configuration that was not there before. 
+
+The question: reconstruct what the attacker did, stage by stage, using read-only access to directory applications, and identify what they would still hold after a standard containment.
 
 ## Environment
 
@@ -20,6 +19,7 @@ Someone accessed the Mad Hat Labs tenant within the last 24 hours. No exploit wa
 - Tools: Azure Portal
 - Access level: Reader on directory apps (observe only, no changes made)
 - Environment: live multi-user Azure training tenant
+- Date: 2026-09-29
 
 ## Investigation
 
