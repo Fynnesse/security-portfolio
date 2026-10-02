@@ -1,4 +1,5 @@
 <img width="1290" height="355" alt="banner-02" src="https://github.com/user-attachments/assets/fd08c0ea-fd5a-4cbd-9b34-f589fd4133e0" />
+
 # Reconstructing an OAuth Consent-Phishing Kill Chain Across Two App Registrations
 
 > [!NOTE]
@@ -117,7 +118,7 @@ Here the legacy connector is the deputy. It holds tenant-wide Graph permissions 
 
 **Recommendations**
 
-Ordered by the sequence they should be carried out in, not by severity alone. Removing the rogue owner comes first because while that service principal remains on the Owners list, the attacker can mint a replacement secret the moment the current one is revoked.
+This is ordered by the sequence they should be carried out in, not by severity alone. For example removing the rogue owner comes first because while that service principal remains on the Owners list, the attacker can create a replacement secret the moment the current one is revoked.
 
 | # | Action | Priority | Owner |
 |---|---|---|---|
