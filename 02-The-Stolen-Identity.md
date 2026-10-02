@@ -27,13 +27,13 @@ The question: reconstruct what the attacker did, stage by stage, using read-only
 
 **Starting position:** I knew from the chapter that the attack had five stages before I opened anything, so this was a confirmation exercise rather than a blind discovery. What I was testing was whether I could locate each stage myself and explain why each one follows from the last.
 
-### 1. Establish the access level I was working from
+### Scoping my access
 
 Before touching the flagged app I checked the Owned applications tab. The account owns nothing in the directory, which set the boundary for everything after: I could read app configuration but could not modify it.
 
 <img width="1902" height="815" alt="2 7 2 Owned Apps" src="https://github.com/user-attachments/assets/e4070a16-da89-457a-8ea6-9640940a28ca" />
 
-### 2. Entry
+### 1. Entry
 
 I opened App registrations and switched from the default Owned applications tab to All applications, which was the only way the flagged app became visible to me. Seven applications were registered in the tenant, with the legacy connector among them.
 
@@ -45,14 +45,14 @@ What made that user valuable was not their own access. Through years of drift th
 
 <img width="1902" height="857" alt="2 7 5 Legacy app note flags" src="https://github.com/user-attachments/assets/717bfc46-d8ed-458d-a6b8-23072799ab55" />
 
-### 3. Escalate
+### 2. Escalate
 
 The API permissions blade is the answer to what the app can actually do. Application-type Graph permissions had been granted with admin consent, meaning they were live and tenant-wide. These were not granted by the attacker. They were granted when the connector was originally stood up, which means the escalation pre-dated the intrusion. The attacker only needed to become the app.
 
 
 <img width="1917" height="817" alt="2 7 9 API_Permissions" src="https://github.com/user-attachments/assets/4015cc5f-d879-43f7-b043-0532c845fffc" />
 
-### 4. Pivot
+### 3. Pivot
 
 The Certificates and secrets blade held a single client secret with an expiry set to the end of the century. A secret authenticates the application itself through the client credentials flow, with no user involved, so from this point the attacker no longer needed a human session at all.
 
@@ -63,7 +63,7 @@ A credential alone is fragile, because rotation kills it. So the Owners blade is
 <img width="1917" height="825" alt="2 7 Owners list" src="https://github.com/user-attachments/assets/26a31896-9b7f-4d13-9b53-3b3d7a35bca2" />
 
 
-### 5. Persist
+### 4. Persist
 
 The Expose an API blade turns the legacy app from a client into a resource, meaning other applications can request permission to call it. A custom scope had been published there. Unlike a secret or an ownership entry, a scope is configuration rather than a credential, so it survives both credential rotation and an owner review.
 
@@ -71,7 +71,7 @@ At this point the attacker holds no new access. A scope is a door, not a key. It
 
 <img width="1917" height="872" alt="2 7 9 legacyapp_xposeAPI" src="https://github.com/user-attachments/assets/84299d20-0e6d-41f5-a9f8-d929a981542e" />
 
-### 6. Loot
+### 5. Loot
 
 The rogue app's Authentication blade carried a redirect URI pointing at infrastructure outside the tenant, alongside a normal-looking development URI. The rogue app's client ID, the exposed scope, and that redirect URI together produce a working consent phishing URL. A victim already signed in on a corporate device clicks Accept, and the authorisation code is delivered to the attacker.
 
