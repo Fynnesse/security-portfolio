@@ -1,4 +1,4 @@
-<img width="1344" height="576" alt="banner-02" src="https://github.com/user-attachments/assets/fd08c0ea-fd5a-4cbd-9b34-f589fd4133e0" />
+<img width="1290" height="355" alt="banner-02" src="https://github.com/user-attachments/assets/fd08c0ea-fd5a-4cbd-9b34-f589fd4133e0" />
 # Reconstructing an OAuth Consent-Phishing Kill Chain Across Two App Registrations
 
 > [!NOTE]
