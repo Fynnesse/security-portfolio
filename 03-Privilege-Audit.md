@@ -1,5 +1,5 @@
 
-<img width="1290" height="576" alt="banner-03" src="https://github.com/user-attachments/assets/8055f57e-feec-492f-9136-d08b9545932e" />
+<img width="1300" height="365" alt="banner-03" src="https://github.com/user-attachments/assets/8055f57e-feec-492f-9136-d08b9545932e" />
 
 
 # Auditing Azure RBAC Four Ways: What Each Method Cannot See
