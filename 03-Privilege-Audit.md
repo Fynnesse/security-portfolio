@@ -55,9 +55,9 @@ Ranked by severity. Each describes the class of finding rather than its value.
 | RBAC-01 | User holding Owner directly at a resource group, constrained by an ABAC condition | High | Role assignment export, hidden resource group scope |
 | RBAC-02 | Orphaned role assignment tied to a deleted principal | High | CLI enumeration showing an empty principal name against a populated principal ID |
 | RBAC-03 | Privileged access that PIM does not govern | High | Role assignment export compared against the PIM assignments view at subscription scope |
-| RBAC-04 | Standing permanent access inside PIM | Medium | Figure 4, PIM active assignments |
-| RBAC-05 | Group-based grants with no visible membership | Medium | Figure 1, ObjectType column in the role assignment export |
-| RBAC-06 | Portal's rendered view disagreed with its own export | Low | Figure 5, IAM blade returning no results |
+| RBAC-04 | Standing permanent access inside PIM | Medium | PIM active assignments view |
+| RBAC-05 | Group-based grants with no visible membership | Medium | ObjectType column in the role assignment export |
+| RBAC-06 | Portal's rendered view disagreed with its own export | Low | IAM blade returning no results |
 
 ### RBAC-01. A user holding Owner directly at a resource group, constrained by an ABAC condition — High
 
