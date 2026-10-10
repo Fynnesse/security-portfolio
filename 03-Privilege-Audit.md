@@ -36,10 +36,16 @@ The board asked for a fresh review of who can do what in the tenant following an
 A fifth stage required synthesising all four to locate an over-provisioned account with no instructions given.
 <img width="1597" height="652" alt="Finding 1" src="https://github.com/user-attachments/assets/9fad5d07-0628-4422-8384-5b1ed737c661" />
 
+*The role assignment export. Every row carries a principal, a role and a scope; the description column is redacted here.*
+
 <img width="1917" height="872" alt="02-cli-enumeration" src="https://github.com/user-attachments/assets/b5d71669-720a-496a-a83e-bda85674d410" />
 
+*Stage 2, the same data as raw objects rather than a rendered table.*
 
 <img width="1917" height="866" alt="3 5 3  Finding 3 " src="https://github.com/user-attachments/assets/1938949b-ac7d-429c-8bb7-d9a4b779da13" />
+
+*Stage 3, scope as an output column rather than an input.*
+
 
 ## Findings
 
