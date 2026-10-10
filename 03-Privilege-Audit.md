@@ -1,5 +1,5 @@
 
-
+<img src="banner-03.png" width="100%">
 
 # Auditing Azure RBAC Four Ways: What Each Method Cannot See
 
