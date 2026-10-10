@@ -1,3 +1,6 @@
+
+
+
 # Auditing Azure RBAC Four Ways: What Each Method Cannot See
 
 > [!NOTE]
@@ -78,6 +81,8 @@ Most access in the tenant is granted to groups. No method used in this audit sho
 
 At the hidden resource group, the Access control (IAM) role assignments table displayed "No results" while the Download role assignments button on the same blade returned a populated export including the Owner assignment above. Same account, same scope, same moment.
 
+<img width="1917" height="756" alt="05-iam-blade-no-results" src="https://github.com/user-attachments/assets/a49d3ef0-ae11-45b5-85e8-0f475c1e0988" />
+
 This is a reliability finding about the tool rather than about the tenant. An auditor who trusted the rendered view here would have reported that resource group as having no assignments.
 
 ## Methodology comparison
@@ -137,4 +142,4 @@ One cost worth stating. Moving standing Owner access to PIM eligible adds fricti
 
 - The four methods answer four different questions, not the same question with varying quality. Who has access here, the same as raw repeatable data, where does this principal have access tenant-wide, and who could have access and for how long. Knowing which question you are asking decides which tool you reach for.
 - An orphaned assignment is a process finding before it is an access finding. The assignment can be revoked in seconds; the offboarding gap that produced it will produce another one next month.
-- [ADD: one thing you'd do differently next time]
+- Next time I would read everything I am eligible for before activating anything. I activated one role and started hunting through exports for a scope that PIM was already listing on the same screen, because I treated activation as a single action rather than a menu to read first.
