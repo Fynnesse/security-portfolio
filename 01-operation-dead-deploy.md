@@ -13,12 +13,12 @@ The questions of interest: what was deployed, who deployed it, and why didn't th
 
 ## Environment
 
-- Platform: Microsoft Azure
-- Services in scope: Resource groups, Storage accounts, Azure Resource Manager deployments, Azure Policy
-- Tools: Azure Portal
-- Access level: Reader (observe only, no changes made)
-- Environment: live multi-user Azure training tenant
-- Date: 2026-09-21
+- Platform: Microsoft Azure.
+- Services in scope: Resource groups, Storage accounts, Azure Resource Manager deployments, Azure Policy.
+- Tools: Azure Portal.
+- Access level: Reader (observe only, no changes made).
+- Environment: live multi-user Azure training tenant.
+- Date: 2026-09-21.
 
 ## Investigation
 
