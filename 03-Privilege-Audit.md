@@ -61,7 +61,7 @@ Ranked by severity. Each describes the class of finding rather than its value.
 
 ### RBAC-01. A user holding Owner directly at a resource group, constrained by an ABAC condition — High
 
-An individual user account held Owner at a resource group scope, assigned directly rather than through a group. Every other assignment observed across the tenant was granted to a group. The assignment carried an attribute-based access control condition restricting which role definitions it could further assign or delete.
+A single principal held Owner directly at a resource group scope, assigned directly rather than through a group, which is how every other assignment observed in this tenant was granted. The assignment carried an attribute-based access control condition restricting which role definitions it could further assign or delete.
 
 The condition is the interesting part. Attaching a constraint to an Owner grant is an implicit admission that Owner was more than the job required. The correct remediation is not a tighter condition but a narrower role.
 
@@ -94,7 +94,8 @@ Either way the practical conclusion holds: **a clean PIM report is not evidence 
 The PIM active assignments view showed a long list of roles held with an end time of Permanent and a state of Assigned. Permanent and active is the opposite of what PIM exists to provide. Only one assignment in the view was in an Activated state with an expiry, and that was the role I had elevated myself.
 
 <img width="1552" height="651" alt="Pim roles" src="https://github.com/user-attachments/assets/7a7fcbdb-e5e9-4e47-b70a-df0f8bb891e0" />
-Permanent and Assigned across the list, with a single Activated row carrying an end time
+
+*Permanent and Assigned across the list, with a single Activated row carrying an end time.*
 
 ### RBAC-05. Group-based grants with no visible membership — Medium
 
@@ -105,6 +106,8 @@ Most access in the tenant is granted to groups. No method used in this audit sho
 At the hidden resource group, the Access control (IAM) role assignments table displayed "No results" while the Download role assignments button on the same blade returned a populated export including the Owner assignment above. Same account, same scope, same moment.
 
 <img width="1917" height="756" alt="05-iam-blade-no-results" src="https://github.com/user-attachments/assets/a49d3ef0-ae11-45b5-85e8-0f475c1e0988" />
+
+*The rendered view at the hidden resource group. The export from the same blade returned a populated file.*
 
 This is a reliability finding about the tool rather than about the tenant. An auditor who trusted the rendered view here would have reported that resource group as having no assignments.
 
