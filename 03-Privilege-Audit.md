@@ -57,7 +57,11 @@ A role assignment at a production resource group referenced a principal of type 
 
 **Why this matters beyond untidiness:**
 
-Azure stores the GUID rather than the name. What is still live here, what would happen if anything were ever recreated with that object ID, and what does the orphan tell you about the offboarding process that produced it?
+A role assignment is three parts: a principal, a role, and a scope. Azure stores the principal as a GUID rather than a name, so when the account was deleted the assignment itself remained intact, still granting Reader on a production resource group to an object ID with nothing behind it.
+
+If anything is ever created carrying that same object ID, it inherits those permissions immediately. No grant is made, no approval is sought, and no audit event is generated, because from Azure’s point of view nothing changed. The access was always there.
+
+The orphan also says something about the process. Deletion is not the same as revocation, and the two were never connected. One orphan found in a single resource group is a reason to check every other scope, because whatever removed that account left its access behind and has no reason to have behaved differently for anyone else.
 
 ### 3. Privileged access that PIM does not govern — High
 
