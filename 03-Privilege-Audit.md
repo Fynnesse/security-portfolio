@@ -4,9 +4,11 @@
 > Identifiers and lab answers are redacted throughout, both in the text and in screenshots. This preserves the integrity of the lab for others and follows standard practice for handling environment data.
 
 **Date:** 2026-10-10
+
 **Environment type:** Live multi-user Azure training tenant
+
 **Report type:** Access audit, not incident response
-**Time spent:** ~[X]h
+
 
 ---
 
@@ -28,6 +30,12 @@ The board asked for a fresh review of who can do what in the tenant following an
 | 4 | PIM export | The only method that knows about time: eligible versus active, and when an assignment ends |
 
 A fifth stage required synthesising all four to locate an over-provisioned account with no instructions given.
+<img width="1597" height="652" alt="Finding 1" src="https://github.com/user-attachments/assets/9fad5d07-0628-4422-8384-5b1ed737c661" />
+
+<img width="1917" height="872" alt="02-cli-enumeration" src="https://github.com/user-attachments/assets/b5d71669-720a-496a-a83e-bda85674d410" />
+
+
+<img width="1917" height="866" alt="3 5 3  Finding 3 " src="https://github.com/user-attachments/assets/1938949b-ac7d-429c-8bb7-d9a4b779da13" />
 
 ## Findings
 
@@ -45,17 +53,28 @@ A role assignment at a production resource group referenced a principal of type 
 
 **Why this matters beyond untidiness:**
 
-[ADD: your own words. Azure stores the GUID rather than the name. What is still live here, what would happen if anything were ever recreated with that object ID, and what does the orphan tell you about the offboarding process that produced it?]
+Azure stores the GUID rather than the name. What is still live here, what would happen if anything were ever recreated with that object ID, and what does the orphan tell you about the offboarding process that produced it?
 
-### 3. Standing permanent privileged access inside PIM — Medium
+### 3. Privileged access that PIM does not govern — High
 
-The PIM active assignments view showed a long list of roles held with an end time of Permanent and a state of Assigned, including Owner at subscription and management group scope. Permanent and active is the opposite of what PIM exists to provide. Only one assignment in the view was in an Activated state with an expiry, and that was the role I had elevated myself.
+Owner assignments exist at both subscription and management group scope in the role assignment export. Neither appeared in the PIM assignments view available to me at subscription scope, where the only active assignment present was Defender for Cloud Metrics.
 
-### 4. Group-based grants with no visible membership — Medium
+Two readings are possible and I could not separate them with the access I held. Either those Owner grants were never enrolled in PIM, in which case the organisation's privileged access management covers less than a PIM report would suggest, or my Reader scope limits what the PIM view returns. The first is the more serious finding and the second is a real possibility given that two other methods in this audit returned access-bounded results.
+
+Either way the practical conclusion holds: **a clean PIM report is not evidence that privileged access is governed.** It is evidence about the assignments PIM knows of. Confirming which reading applies requires an account with broader scope and is the first thing I would hand to whoever picks this up.
+
+### 4. Standing permanent access inside PIM — Medium
+
+The PIM active assignments view showed a long list of roles held with an end time of Permanent and a state of Assigned. Permanent and active is the opposite of what PIM exists to provide. Only one assignment in the view was in an Activated state with an expiry, and that was the role I had elevated myself.
+
+<img width="1552" height="651" alt="Pim roles" src="https://github.com/user-attachments/assets/7a7fcbdb-e5e9-4e47-b70a-df0f8bb891e0" />
+Permanent and Assigned across the list, with a single Activated row carrying an end time
+
+### 5. Group-based grants with no visible membership — Medium
 
 Most access in the tenant is granted to groups. No method used in this audit showed who was inside those groups, so the exports establish that a group holds a role without establishing how many people that represents. In a tenant using dynamic membership, group membership can also change without any approval step.
 
-### 5. The portal's rendered view disagreed with its own export — Low, but material to the method
+### 6. The portal's rendered view disagreed with its own export — Low, but material to the method
 
 At the hidden resource group, the Access control (IAM) role assignments table displayed "No results" while the Download role assignments button on the same blade returned a populated export including the Owner assignment above. Same account, same scope, same moment.
 
@@ -108,7 +127,7 @@ Ordered by sequence of execution rather than severity alone.
 | 1 | Revoke the orphaned role assignment tied to the deleted principal | High | IAM |
 | 2 | Replace the direct Owner grant at resource group scope with the narrowest job-function role at the narrowest scope that supports the work, rather than retaining Owner with a condition attached | High | IAM |
 | 3 | Review the offboarding process that left an assignment behind, since one orphan implies the process does not revoke access on account deletion | High | IAM / HR systems |
-| 4 | Move standing privileged access, particularly Owner at subscription and management group scope, to PIM eligible with MFA, justification and time limits | High | IAM |
+| 4 | Establish whether the Owner grants at subscription and management group scope are enrolled in PIM at all, then move them to PIM eligible with MFA, justification and time limits | High | IAM |
 | 5 | Assign roles to groups rather than to individual users, and audit group membership with the same rigour as the role assignments themselves | Medium | IAM |
 | 6 | Run this audit on a quarterly cadence and treat the output as a ticket queue, so findings are worked rather than filed | Medium | IAM / Governance |
 
