@@ -48,18 +48,30 @@ A fifth stage required synthesising all four to locate an over-provisioned accou
 
 
 ## Findings
-
 Ranked by severity. Each describes the class of finding rather than its value.
 
-### 1. A user holding Owner directly at a resource group, constrained by an ABAC condition — High
+| ID | Finding | Severity | Evidence |
+|---|---|---|---|
+| RBAC-01 | User holding Owner directly at a resource group, constrained by an ABAC condition | High | Role assignment export, hidden resource group scope |
+| RBAC-02 | Orphaned role assignment tied to a deleted principal | High | CLI enumeration showing an empty principal name against a populated principal ID |
+| RBAC-03 | Privileged access that PIM does not govern | High | Role assignment export compared against the PIM assignments view at subscription scope |
+| RBAC-04 | Standing permanent access inside PIM | Medium | Figure 4, PIM active assignments |
+| RBAC-05 | Group-based grants with no visible membership | Medium | Figure 1, ObjectType column in the role assignment export |
+| RBAC-06 | Portal's rendered view disagreed with its own export | Low | Figure 5, IAM blade returning no results |
+
+### RBAC-01. A user holding Owner directly at a resource group, constrained by an ABAC condition — High
 
 An individual user account held Owner at a resource group scope, assigned directly rather than through a group. Every other assignment observed across the tenant was granted to a group. The assignment carried an attribute-based access control condition restricting which role definitions it could further assign or delete.
 
 The condition is the interesting part. Attaching a constraint to an Owner grant is an implicit admission that Owner was more than the job required. The correct remediation is not a tighter condition but a narrower role.
 
-### 2. An orphaned role assignment tied to a deleted principal — High
+### RBAC-02. An orphaned role assignment tied to a deleted principal — High
 
 A role assignment at a production resource group referenced a principal of type User whose name resolved to nothing. The assignment itself was intact and active; only the account behind it was gone.
+
+<img width="1760" height="352" alt="02-orphaned-assignment" src="https://github.com/user-attachments/assets/ee23f659-2da0-42ee-a2bf-405e84462f71" />
+
+*The orphaned assignment. The principal name resolves to nothing while the assignment still grants Reader on a production resource group.*
 
 **Why this matters beyond untidiness:**
 
@@ -69,7 +81,7 @@ If anything is ever created carrying that same object ID, it inherits those perm
 
 The orphan also says something about the process. Deletion is not the same as revocation, and the two were never connected. One orphan found in a single resource group is a reason to check every other scope, because whatever removed that account left its access behind and has no reason to have behaved differently for anyone else.
 
-### 3. Privileged access that PIM does not govern — High
+### RBAC-03. Privileged access that PIM does not govern — High
 
 Owner assignments exist at both subscription and management group scope in the role assignment export. Neither appeared in the PIM assignments view available to me at subscription scope, where the only active assignment present was Defender for Cloud Metrics.
 
@@ -77,18 +89,18 @@ Two readings are possible and I could not separate them with the access I held. 
 
 Either way the practical conclusion holds: **a clean PIM report is not evidence that privileged access is governed.** It is evidence about the assignments PIM knows of. Confirming which reading applies requires an account with broader scope and is the first thing I would hand to whoever picks this up.
 
-### 4. Standing permanent access inside PIM — Medium
+### RBAC-04. Standing permanent access inside PIM — Medium
 
 The PIM active assignments view showed a long list of roles held with an end time of Permanent and a state of Assigned. Permanent and active is the opposite of what PIM exists to provide. Only one assignment in the view was in an Activated state with an expiry, and that was the role I had elevated myself.
 
 <img width="1552" height="651" alt="Pim roles" src="https://github.com/user-attachments/assets/7a7fcbdb-e5e9-4e47-b70a-df0f8bb891e0" />
 Permanent and Assigned across the list, with a single Activated row carrying an end time
 
-### 5. Group-based grants with no visible membership — Medium
+### RBAC-05. Group-based grants with no visible membership — Medium
 
 Most access in the tenant is granted to groups. No method used in this audit showed who was inside those groups, so the exports establish that a group holds a role without establishing how many people that represents. In a tenant using dynamic membership, group membership can also change without any approval step.
 
-### 6. The portal's rendered view disagreed with its own export — Low, but material to the method
+### RBAC-06. The portal's rendered view disagreed with its own export — Low, but material to the method
 
 At the hidden resource group, the Access control (IAM) role assignments table displayed "No results" while the Download role assignments button on the same blade returned a populated export including the Owner assignment above. Same account, same scope, same moment.
 
