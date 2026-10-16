@@ -1,3 +1,7 @@
+<img width="1344" height="576" alt="banner-04" src="https://github.com/user-attachments/assets/baf4d072-4e53-48c2-b8d6-39019a43a681" />
+
+
+
 # Reviewing a Friday Deploy Against a Production Baseline
 
 > [!NOTE]
