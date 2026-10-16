@@ -15,7 +15,7 @@ Contact: asagbajerryjobs@gmail.com · www.linkedin.com/in/jeremiahasagba/
 | 1 | Operation Dead Deploy | Governance forensics, deployment audit trail | [Read write-up](01-operation-dead-deploy.md) |
 | 2 | The Stolen Identity | App registration attack kill chain (Entra ID) | [Read write-up](02-The-Stolen-Identity.md) |
 | 3 | Privilege Audit | RBAC and least privilege | [Read write-up](03-Privilege-Audit.md)  |
-| 4 | Spin Up and Lock Down | Compute attack surface | coming, week 4 |
+| 4 | Spin Up and Lock Down | Compute attack surface | [Read write-up](04-Spin-Up-and-Lock-Down.md) |
 | 5 | Network the Operative | Network segmentation | coming, week 5 |
 | 6 | Bucket Looting | Storage exposure hunting | coming, week 6 |
 | 7 | Find the Anomaly | Log analysis and KQL | coming, week 7 |
