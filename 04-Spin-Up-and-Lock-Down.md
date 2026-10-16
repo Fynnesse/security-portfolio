@@ -149,7 +149,8 @@ The admin console still requires authentication, so this isn't anonymous access.
 
 ## What broke / what surprised me
 
-The review itself was straightforward, and the baseline did most of the heavy lifting. Two moments made me slow down. Reader access couldn't read the app settings, so one finding had to be built from indirect evidence rather than seen directly. And the answer key had a gap of its own: comparing against production only works if you remember production can be wrong too.
+Nothing broke. The review was straightforward, and the production baseline did most of the heavy lifting.
+Every finding came from noticing the new service didn’t do what the working one already did but comparing against production only works if you remember production can be wrong too.
 
 ---
 
