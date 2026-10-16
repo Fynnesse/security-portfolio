@@ -1,4 +1,4 @@
-<img width="1344" height="576" alt="banner-04" src="https://github.com/user-attachments/assets/baf4d072-4e53-48c2-b8d6-39019a43a681" />
+<img width="1300" height="365" alt="banner-04" src="https://github.com/user-attachments/assets/baf4d072-4e53-48c2-b8d6-39019a43a681" />
 
 
 
@@ -27,7 +27,7 @@ The new notification service has four problems, but only one is urgent. Internal
 
 Four findings. Exactly one is an active exposure rather than a hygiene gap. Data readable on the public internet right now is worse than any best practice that hasn't been followed yet.
 
-The rule I used: **exposure beats hygiene, active beats potential.** Where two fixes carry similar risk, the cheaper one goes first.
+The rule I used: **Exposure beats hygiene, active beats potential.** Where two fixes carry similar risk, the cheaper one goes first.
 
 | Priority | Finding | When | Why |
 |---|---|---|---|
@@ -62,24 +62,24 @@ The review followed five questions:
 
 ### 1. The Where: deployed outside the platform's region
 
-**Observed.** The new service and its storage account were deployed to a region on another continent, in a different country from the rest of the platform. The production service, and almost every other resource group visible in the subscription, sits in a single US region.
+**Observed:** The new service and its storage account were deployed to a region on another continent, in a different country from the rest of the platform. The production service, and almost every other resource group visible in the subscription, sits in a single US region.
 
-**Verified.** Compared the Location field on both services' Overview blades, then cross-checked the Location column across all resource groups in the subscription.
+**Verified:** Compared the Location field on both services' Overview blades, then cross-checked the Location column across all resource groups in the subscription.
 
-**Why it matters.** The new service's own app and storage sit together, so they don't pay a cross-region cost to each other. The cost lands on every call the service makes to the rest of the platform: latency on the way there, and an egress charge on the way back, because Azure bills for data leaving a region, not entering it. The bigger issue is data sovereignty. Data stored in another country falls under that country's laws, and placing it there can break commitments the business has made about where its data lives, without anyone ever deciding to.
+**Why it matters:** The new service's own app and storage sit together, so they don't pay a cross-region cost to each other. The cost lands on every call the service makes to the rest of the platform: latency on the way there, and an egress charge on the way back, because Azure bills for data leaving a region, not entering it. The bigger issue is data sovereignty. Data stored in another country falls under that country's laws, and placing it there can break commitments the business has made about where its data lives, without anyone ever deciding to.
 
 ![New service overview](images/04-deploy-review/f1-new-service-overview.png)
 
 ![Production service overview](images/04-deploy-review/f1-production-overview.png)
 *New service (top) and production baseline (bottom). Location and plan values redacted.*
 
-**Fix.** Redeploy into the platform's standard region. A Function App can't be moved between regions in place, so this is a redeploy, not a setting change.
+**Fix:** Redeploy into the platform's standard region. A Function App can't be moved between regions in place, so this is a redeploy, not a setting change.
 
 ### 2. The Who: no managed identity
 
-**Observed.** No managed identity of either type is attached. Production uses a user-assigned managed identity.
+**Observed:** No managed identity of either type is attached. Production uses a user-assigned managed identity.
 
-**Verified.** Checked both the System assigned and User assigned tabs on the Identity blade of both services. Reader access could not read the new service's app settings, so I couldn't view the credential directly. Two independent pieces of evidence confirm a stored credential is in use:
+**Verified:** Checked both the System assigned and User assigned tabs on the Identity blade of both services. Reader access could not read the new service's app settings, so I couldn't view the credential directly. Two independent pieces of evidence confirm a stored credential is in use:
 
 1. The Functions runtime's own containers in the storage account show the service is actively using that storage. With no managed identity attached, the only way it can authenticate is with a stored key or connection string.
 2. The deployment notes found during Finding 3 state that the connection string was shared in a Teams direct message.
@@ -89,40 +89,40 @@ The review followed five questions:
 ![Production identity blade](images/04-deploy-review/f2-production-identity.png)
 *New service with no identity attached (top). Production with a user-assigned identity (bottom).*
 
-**Why it matters.** A stored credential works from anywhere, doesn't expire unless someone rotates it, and can be copied. This one already has been: it now also sits in a chat, outside any vault, where anyone who gets into either account can read it.
+**Why it matters:** A stored credential works from anywhere, doesn't expire unless someone rotates it, and can be copied. This one already has been: it now also sits in a chat, outside any vault, where anyone who gets into either account can read it.
 
-**Fix.** Attach a user-assigned managed identity, matching production, with a role scoped to that one storage account. Remove the stored credential from the app settings, then rotate the storage account key, since a copy of the old one lives in chat history.
+**Fix:** Attach a user-assigned managed identity, matching production, with a role scoped to that one storage account. Remove the stored credential from the app settings, then rotate the storage account key, since a copy of the old one lives in chat history.
 
 ### 3. The Leak: a storage container open to anonymous access
 
-**Observed.** One storage container had its anonymous access level set to Blob. Every other container in the account was Private.
+**Observed:** One storage container had its anonymous access level set to Blob. Every other container in the account was Private.
 
 ![Container access levels](images/04-deploy-review/f3-container-access-levels.png)
 *One container set to Blob while every other container is Private.*
 
-**Verified.** Opened the file inside the container, copied its URL from the properties page, and pasted it into a private browser window with no account signed in. The file loaded with no account, no token, and no sign-in. That moved this finding from "misconfigured" to "exposed."
+**Verified:** Opened the file inside the container, copied its URL from the properties page, and pasted it into a private browser window with no account signed in. The file loaded with no account, no token, and no sign-in. That moved this finding from "misconfigured" to "exposed."
 
 ![Blob URL on the properties page](images/04-deploy-review/f3-blob-url.png)
 
 ![File loading in a signed-out private window](images/04-deploy-review/f3-private-window-proof.png)
 *The file's URL copied from its properties page (top), then loaded in a signed-out private window (bottom).*
 
-**Why it matters.** Blob level means visitors can't list what's in the container, but anyone with a file's URL can read it. That URL is built from the account, container, and file names, so it can be guessed or found, not only shared.
+**Why it matters:** Blob level means visitors can't list what's in the container, but anyone with a file's URL can read it. That URL is built from the account, container, and file names, so it can be guessed or found, not only shared.
 
 The contents make it worse. The file holds the intern's deployment notes. Read as an attacker, they confirm the service has no managed identity, confirm it has no inbound restrictions, and say exactly where the connection string is kept: in a specific person's Teams messages. The leaked file is a map to the next attack, and that person's account becomes the obvious phishing target.
 
-**Fix.** Set the container to Private today. Turn off anonymous blob access at the storage account level so it can't be switched back on per container. Check the storage access logs for anonymous reads of the file since deployment, because "nobody has read it" is a claim that needs evidence too.
+**Fix:** Set the container to Private today. Turn off anonymous blob access at the storage account level so it can't be switched back on per container. Check the storage access logs for anonymous reads of the file since deployment, because "nobody has read it" is a claim that needs evidence too.
 
 ### 4. The Door: no inbound access restrictions
 
-**Observed.** Public network access is enabled with no access restrictions. The only rule is Allow all from any source, and the unmatched rule action is Allow. The advanced tool site (the admin console) has the same open configuration. Production has an explicit deny-all rule covering every address, with the unmatched rule action also set to Deny.
+**Observed:** Public network access is enabled with no access restrictions. The only rule is Allow all from any source, and the unmatched rule action is Allow. The advanced tool site (the admin console) has the same open configuration. Production has an explicit deny-all rule covering every address, with the unmatched rule action also set to Deny.
 
 ![New service networking](images/04-deploy-review/f4-new-service-networking.png)
 
 ![Production networking](images/04-deploy-review/f4-production-networking.png)
 *"Enabled with no access restrictions" on the new service (top) against "Enabled with access restrictions" on production (bottom).*
 
-**Verified.** Networking, then Access restrictions, on both services, checking both the Main site and Advanced tool site tabs.
+**Verified:** Networking, then Access restrictions, on both services, checking both the Main site and Advanced tool site tabs.
 
 ![New service access rules](images/04-deploy-review/f4-new-service-access-rules.png)
 
@@ -132,9 +132,9 @@ The contents make it worse. The file holds the intern's deployment notes. Read a
 ![New service admin console rules](images/04-deploy-review/f4-new-service-admin-console-rules.png)
 *The new service's admin console (advanced tool site), also open to any source.*
 
-**Why it matters.** The deployment notes assume the service "needs to be reachable to work." It doesn't. Access restrictions only control traffic coming in from outside. Timer, queue, and blob triggers don't depend on inbound traffic: a timer fires on a schedule inside Azure, and a queue trigger has the runtime reach out to check for messages. Production proves the point by running with all inbound traffic denied, most likely on non-HTTP triggers. Right now the new service is an open endpoint anyone on the internet can probe.
+**Why it matters:** The deployment notes assume the service "needs to be reachable to work." It doesn't. Access restrictions only control traffic coming in from outside. Timer, queue, and blob triggers don't depend on inbound traffic: a timer fires on a schedule inside Azure, and a queue trigger has the runtime reach out to check for messages. Production proves the point by running with all inbound traffic denied, most likely on non-HTTP triggers. Right now the new service is an open endpoint anyone on the internet can probe.
 
-**Fix.** Add a deny-all rule matching production's baseline and set the unmatched rule action to Deny. Set the advanced tool site to use the main site rules. If the service ever genuinely needs an HTTP trigger, allow only the specific caller, never the whole internet.
+**Fix:** Add a deny-all rule matching production's baseline and set the unmatched rule action to Deny. Set the advanced tool site to use the main site rules. If the service ever genuinely needs an HTTP trigger, allow only the specific caller, never the whole internet.
 
 ### Observation outside scope: production's admin console
 
