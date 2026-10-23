@@ -1,3 +1,7 @@
+<img width="1300" height="380" alt="banner-05" src="https://github.com/user-attachments/assets/e6b8f767-54d3-4142-a748-6d342e95bfd6" />
+
+
+
 # Tracing Private Storage Traffic Past a Forced Tunnel
 
 > [!NOTE]
