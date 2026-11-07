@@ -16,7 +16,7 @@ Contact: asagbajerryjobs@gmail.com · www.linkedin.com/in/jeremiahasagba/
 | 2 | The Stolen Identity | App registration attack kill chain (Entra ID) | [Read write-up](02-The-Stolen-Identity.md) |
 | 3 | Privilege Audit | RBAC and least privilege | [Read write-up](03-Privilege-Audit.md)  |
 | 4 | Spin Up and Lock Down | Compute attack surface | [Read write-up](04-Spin-Up-and-Lock-Down.md) |
-| 5 | Network the Operative | Network segmentation | coming, week 5 |
+| 5 | Network the Operative | Network segmentation | [Read write-up](05-Network-the-Operative.md) |
 | 6 | Bucket Looting | Storage exposure hunting | coming, week 6 |
 | 7 | Find the Anomaly | Log analysis and KQL | coming, week 7 |
 | 8 | Hunt the Threat | SIEM operations (Sentinel) | coming, week 8 |
