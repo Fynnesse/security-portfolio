@@ -77,9 +77,9 @@ A role assignment at a production resource group referenced a principal of type 
 
 A role assignment is three parts: a principal, a role, and a scope. Azure stores the principal as a GUID rather than a name, so when the account was deleted the assignment itself remained intact, still granting Reader on a production resource group to an object ID with nothing behind it.
 
-If anything is ever created carrying that same object ID, it inherits those permissions immediately. No grant is made, no approval is sought, and no audit event is generated, because from Azure’s point of view nothing changed. The access was always there.
+A newly created account always receives a new object ID, so recreating the user does not reclaim the assignment. The risk sits with restoration. Entra ID keeps deleted users restorable for 30 days, and a restored user comes back with its original object ID. The moment that happens, the orphaned assignment applies again. No role is granted, no approval is sought, and no role assignment event is recorded in Azure, because from Azure's point of view nothing changed. The access was always there. The only trace is the restore itself in the Entra audit log, which is not the log an RBAC review would be looking at.
 
-The orphan also says something about the process. Deletion is not the same as revocation, and the two were never connected. One orphan found in a single resource group is a reason to check every other scope, because whatever removed that account left its access behind and has no reason to have behaved differently for anyone else.
+Once the 30 days pass and the deletion becomes permanent, the assignment can no longer be reclaimed. It still needs removing, because it sits in every export as noise an auditor has to explain, and it proves the offboarding process never revoked anything.
 
 ### RBAC-03. Privileged access that PIM does not govern — High
 
