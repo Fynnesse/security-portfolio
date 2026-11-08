@@ -5,7 +5,7 @@ Documented cloud security investigations, built in a live Azure tenant
 
 Target role: SOC Analyst / Security Analyst
 
-Currently: Operation Executive | Manchester
+Currently: Operations Executive | Manchester
 
 Contact: asagbajerryjobs@gmail.com · www.linkedin.com/in/jeremiahasagba/
 
