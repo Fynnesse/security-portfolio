@@ -17,7 +17,7 @@ Contact: asagbajerryjobs@gmail.com · www.linkedin.com/in/jeremiahasagba/
 | 3 | Privilege Audit | RBAC and least privilege | [Read write-up](03-Privilege-Audit.md)  |
 | 4 | Spin Up and Lock Down | Compute attack surface | [Read write-up](04-Spin-Up-and-Lock-Down.md) |
 | 5 | Network the Operative | Network segmentation | [Read write-up](05-Network-the-Operative.md) |
-| 6 | Bucket Looting | Storage exposure hunting | coming, week 6 |
+| 6 | Bucket Looting | Storage exposure hunting | [Read write-up](06-Bucket-Looting.md) |
 | 7 | Find the Anomaly | Log analysis and KQL | coming, week 7 |
 | 8 | Hunt the Threat | SIEM operations (Sentinel) | coming, week 8 |
 | 9 | Score the Tenant | Cloud security posture | coming, week 9 |

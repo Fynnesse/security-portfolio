@@ -1,0 +1,75 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" font-family="'DejaVu Sans','Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1a2f"/>
+      <stop offset="1" stop-color="#0d2742"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#ff6b6b"/>
+    </marker>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- title -->
+  <text x="600" y="46" text-anchor="middle" fill="#eef4fb" font-size="30" font-weight="700">Hardening doesn&#39;t travel with the data</text>
+  <text x="600" y="74" text-anchor="middle" fill="#9db4cc" font-size="15">Azure Chapter 6 &#183; Following the Secret &#183; read-only trace across rg-madhat-lab-chap6</text>
+
+  <!-- bypass arrow over the top -->
+  <path d="M 108 300 C 320 78, 640 78, 724 160" fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+  <text x="402" y="120" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="600">anonymous HTTPS GET &#183; no credentials</text>
+
+  <!-- attacker silhouette -->
+  <circle cx="92" cy="300" r="17" fill="#ff6b6b"/>
+  <path d="M 62 372 C 62 332, 122 332, 122 372 Z" fill="#ff6b6b"/>
+  <text x="92" y="398" text-anchor="middle" fill="#9db4cc" font-size="12">anonymous</text>
+
+  <!-- LEFT panel: hardened primary -->
+  <rect x="150" y="162" width="420" height="368" rx="14" fill="#10243d" stroke="#2fbf71" stroke-width="1.5" filter="url(#soft)"/>
+  <text x="178" y="196" fill="#9db4cc" font-size="13" letter-spacing="2">PRIMARY</text>
+  <text x="178" y="224" fill="#eef4fb" font-size="21" font-weight="700" font-family="'DejaVu Sans Mono',monospace">stmadhatlabchap6</text>
+  <rect x="178" y="240" width="214" height="26" rx="13" fill="#123a2b" stroke="#2fbf71" stroke-width="1"/>
+  <text x="285" y="258" text-anchor="middle" fill="#39d98a" font-size="12" font-weight="700" letter-spacing="1">WHAT RIGHT LOOKS LIKE</text>
+
+  <g font-size="16">
+    <text x="178" y="312" fill="#39d98a" font-weight="700">&#10003;<tspan fill="#eef4fb" font-weight="600" dx="8">Shared-key access OFF</tspan></text>
+    <text x="202" y="332" fill="#9db4cc" font-size="13">identity-only, Entra ID RBAC</text>
+
+    <text x="178" y="372" fill="#39d98a" font-weight="700">&#10003;<tspan fill="#eef4fb" font-weight="600" dx="8">Public network access OFF</tspan></text>
+    <text x="202" y="392" fill="#9db4cc" font-size="13">reached via private endpoint (10.70.1.36)</text>
+
+    <text x="178" y="432" fill="#39d98a" font-weight="700">&#10003;<tspan fill="#eef4fb" font-weight="600" dx="8">Connection string in Key Vault</tspan></text>
+    <text x="202" y="452" fill="#9db4cc" font-size="13">read by the app&#39;s managed identity</text>
+
+    <text x="178" y="492" fill="#39d98a" font-weight="700">&#10003;<tspan fill="#eef4fb" font-weight="600" dx="8">Geo-redundant, HTTPS enforced</tspan></text>
+    <text x="202" y="512" fill="#9db4cc" font-size="13">four controls, correctly applied</text>
+  </g>
+
+  <!-- RIGHT panel: open backup -->
+  <rect x="630" y="162" width="420" height="368" rx="14" fill="#2a1420" stroke="#e24a4a" stroke-width="1.5" filter="url(#soft)"/>
+  <text x="658" y="196" fill="#c99" font-size="13" letter-spacing="2">BACKUP</text>
+  <text x="658" y="224" fill="#eef4fb" font-size="21" font-weight="700" font-family="'DejaVu Sans Mono',monospace">stmadhatlabbackup</text>
+  <rect x="658" y="240" width="250" height="26" rx="13" fill="#3a1414" stroke="#e24a4a" stroke-width="1"/>
+  <text x="783" y="258" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="700" letter-spacing="1">ONE SETTING UNDID ALL OF IT</text>
+
+  <g font-size="16">
+    <text x="658" y="312" fill="#ff6b6b" font-weight="700">&#10007;<tspan fill="#eef4fb" font-weight="600" dx="8">Blob anonymous access ON</tspan></text>
+    <text x="682" y="332" fill="#c7a9b0" font-size="13">container db-backups publicly listable</text>
+
+    <text x="658" y="372" fill="#ff6b6b" font-weight="700">&#10007;<tspan fill="#eef4fb" font-weight="600" dx="8">Holds a copy of customers-prod</tspan></text>
+    <text x="682" y="392" fill="#c7a9b0" font-size="13">names, emails, plan tiers</text>
+
+    <text x="658" y="432" fill="#ff6b6b" font-weight="700">&#10007;<tspan fill="#eef4fb" font-weight="600" dx="8">Account key sitting in the file</tspan></text>
+    <text x="682" y="452" fill="#c7a9b0" font-size="13">shared-key never disabled here</text>
+
+    <text x="658" y="492" fill="#ffc857" font-weight="700">&#9888;<tspan fill="#eef4fb" font-weight="600" dx="8">Labelled &#8220;DELETE ME&#8221;, Feb 2026</tspan></text>
+    <text x="682" y="512" fill="#c7a9b0" font-size="13">a throwaway that outlived its task</text>
+  </g>
+
+  <!-- footer -->
+  <text x="600" y="578" text-anchor="middle" fill="#9db4cc" font-size="15">Same data, second copy. An attacker doesn&#39;t fight the hardened path.</text>
+  <text x="600" y="602" text-anchor="middle" fill="#eef4fb" font-size="15" font-weight="600">They find the copy you forgot.</text>
+</svg>
