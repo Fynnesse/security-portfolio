@@ -1,6 +1,6 @@
 ![Bucket Looting, Azure Chapter 6, following a Key Vault secret to its data and the copy nobody locked](./images/06-bucket-looting/banner-06.svg)
 
-# Bucket Looting
+# Following a Secret to Its Data, and the Copy Nobody Locked
 
 > [!NOTE]
 > Identifiers and lab answers are redacted throughout, both in the text and in screenshots. This preserves the integrity of the lab for others and follows standard practice for handling environment data.
